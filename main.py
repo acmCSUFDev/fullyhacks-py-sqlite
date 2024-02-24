@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
 import sqlite3
-from doc import fprint
 from typing import Optional
 from pydantic import BaseModel
-
-# Create a new SQLite database.
-db = sqlite3.connect("test.db", check_same_thread=False)
-db.row_factory = sqlite3.Row
+from internal.doc import assert_output, fprint
 
 # Define the schema for the database.
 # This is executed every time the program is run, so we have to check if the
@@ -19,6 +15,15 @@ DB_SCHEMA = """
         bio TEXT
     );
 """
+
+# Set the name of the database file.
+# Ideally, use "database.db" or something similar, but for the sake of the
+# example, we'll use ":memory:" to create a temporary database.
+DB_FILE = ":memory:"
+
+# Create a new SQLite database.
+db = sqlite3.connect(DB_FILE, check_same_thread=False)
+db.row_factory = sqlite3.Row
 
 
 class User(BaseModel):
@@ -91,5 +96,14 @@ def main():
     fprint("Bob:", bob)
 
 
+output = """
+Alice: id=1 username='alice' password='1234' bio=None
+Users: [User(id=1, username='alice', password='1234', bio=None), User(id=2, username='bob', password='1234', bio=None)]
+Alice: id=1 username='alice' password='1234' bio='I am Alice'
+Bob: None
+"""
+
+
 if __name__ == "__main__":
     main()
+    assert_output(output)

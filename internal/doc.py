@@ -13,17 +13,21 @@ If you're here to see the example, you can skip this file and go to `main.py`!
 
 from inspect import getframeinfo, stack
 import re
+import sys
 from colors import color
 
 last_linenos: dict[str, int] = {}
 file_lines: dict[str, list[str]] = {}
+printed = ""
 
 
 def fprint(*args):
     global last_linenos
     global file_lines
+    global printed
 
     msg = " ".join([str(arg) for arg in args])
+    printed += msg + "\n"
 
     caller = getframeinfo(stack()[1][0])
     lineno = caller.lineno
@@ -35,14 +39,26 @@ def fprint(*args):
         file_lines[filename] = lines
 
     last_lineno = last_linenos.get(filename, 0)
-    lines = lines[last_lineno:lineno]
+    current_lines = lines[last_lineno:lineno]
     last_linenos[filename] = lineno
 
-    indent_str, _ = extract_indent(lines[-1])
+    if current_lines:
+        indent_str, _ = extract_indent(current_lines[-1])
+        print(color("\n".join(current_lines), style="faint"))
+    else:
+        indent_str, _ = extract_indent(lines[lineno - 1])
 
-    print(color("\n".join(lines), style="faint"))
     print(indent_str + color("┃", fg="cyan", style="faint"), end=" ")
     print(color(msg, fg="cyan", style="bold"))
+
+
+def assert_output(expected: str):
+    if printed.strip() != expected.strip():
+        print("Expected:")
+        print(expected)
+        print("Got:")
+        print(printed)
+        sys.exit(1)
 
 
 def source_lines(filename: str) -> list[str]:
