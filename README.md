@@ -7,6 +7,11 @@ SQLite example in Python for the FullyHacks workshop.
 > SQLite table to Python objects in a more Pythonic way. For information on
 > Pydantic, see [Pydantic's documentation](https://docs.pydantic.dev/latest/).
 
+> [!IMPORTANT]
+> The `users` table in the example is not secure: it stores passwords in plain
+> text. In the real world, **you should never store passwords in plain text**.
+> Use a secure hashing algorithm like bcrypt or PBKDF2 instead.
+
 ## Learning
 
 The SQLite example is in the `example.py` file. The `example.py` file contains a
