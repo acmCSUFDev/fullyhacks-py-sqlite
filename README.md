@@ -7,6 +7,12 @@ SQLite example in Python for the FullyHacks workshop.
 > SQLite table to Python objects in a more Pythonic way. For information on
 > Pydantic, see [Pydantic's documentation](https://docs.pydantic.dev/latest/).
 
+## Learning
+
+The SQLite example is in the `main.py` file. The `main.py` file contains a
+simple example of how to use SQLite in Python to manage tables and store and
+retrieve data.
+
 ## Running
 
 First, ensure you have Python 3 installed. Then, enter the virtual environment
