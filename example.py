@@ -27,6 +27,13 @@ db.row_factory = sqlite3.Row
 
 
 class User(BaseModel):
+    """
+    This class represents a user.
+
+    It closely mirrors the database schema and allows us to easily work with
+    SQLite rows from that table.
+    """
+
     id: int
     username: str
     password: str
